@@ -2,11 +2,12 @@
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="Akila.MasterFPSCounter.BasicFPSCounter" preserve="all" />
     <type fullname="AudioTrigger" preserve="all" />
-    <type fullname="BottomTextBarAnimator" preserve="all" />
     <type fullname="BZelle" preserve="all" />
     <type fullname="CarTAimAssistTrajectory" preserve="all" />
     <type fullname="CarTCellFeedback" preserve="all" />
+    <type fullname="CarTTapThrowController" preserve="all" />
     <type fullname="CatheterTrigger" preserve="all" />
+    <type fullname="EndCTAVideoPlayer" preserve="all" />
     <type fullname="ExperienceEndController" preserve="all" />
     <type fullname="FireflyBehavior" preserve="all" />
     <type fullname="FoyerEndVideo" preserve="all" />
@@ -56,13 +57,16 @@
   </assembly>
   <assembly fullname="OnVR.Warehouse.DialogueSystem, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="OnVR.Warehouse.DialogueSystem.DialogueManager" preserve="all" />
+    <type fullname="OnVR.Warehouse.DialogueSystem.UI.ModularDialogueBoxController" preserve="all" />
   </assembly>
   <assembly fullname="OnVR.Warehouse.FlowSystem, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.FlowGraphAsset" preserve="all" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.FlowGraphRunner" preserve="all" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.FlowEdgeData" preserve="nothing" serialized="true" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.AvatarTravelNodeData" preserve="nothing" serialized="true" />
+    <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.DelayNodeData" preserve="nothing" serialized="true" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.EndNodeData" preserve="nothing" serialized="true" />
+    <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.PlayDialogueByKeyNoWaitNodeData" preserve="nothing" serialized="true" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.PlayDialogueByKeyNodeData" preserve="nothing" serialized="true" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.SetActiveNodeData" preserve="nothing" serialized="true" />
     <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.SetComponentStateNodeData" preserve="nothing" serialized="true" />
@@ -95,6 +99,7 @@
     <type fullname="OnVR.Warehouse.Localization.LocalizedDialoguePlayer" preserve="all" />
   </assembly>
   <assembly fullname="OnVR.Warehouse.UIKit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="OnVR.Warehouse.UIKit.ResponsiveLayout.ResponsiveLayoutManager" preserve="all" />
     <type fullname="OnVR.Warehouse.UIKit.UIPulse" preserve="all" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
@@ -266,6 +271,7 @@
     <type fullname="UnityEngine.UI.LayoutElement" preserve="all" />
     <type fullname="UnityEngine.UI.Mask" preserve="all" />
     <type fullname="UnityEngine.UI.RawImage" preserve="all" />
+    <type fullname="UnityEngine.UI.RectMask2D" preserve="all" />
     <type fullname="UnityEngine.UI.ScrollRect" preserve="all" />
     <type fullname="UnityEngine.UI.Text" preserve="all" />
     <type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="all" />
@@ -284,6 +290,7 @@
     <type fullname="UnityEngine.CanvasRenderer" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Video.VideoClip" preserve="all" />
     <type fullname="UnityEngine.Video.VideoPlayer" preserve="all" />
   </assembly>
   <assembly fullname="Unity.Mathematics">

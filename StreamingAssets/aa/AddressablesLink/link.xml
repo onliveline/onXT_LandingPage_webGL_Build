@@ -29,6 +29,8 @@
     <type fullname="XRThrowDetection" preserve="all" />
     <type fullname="ReadyPlayerMe.Core.AvatarMetadata" preserve="nothing" serialized="true" />
     <type fullname="MinMaxPair" preserve="nothing" serialized="true" />
+    <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.FadeAudioSourceNodeData" preserve="nothing" serialized="true" />
+    <type fullname="OnVR.Warehouse.FlowSystem.Graph.Nodes.FadeScreenNodeData" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="com.onvr.warehouse.grabinteraction, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="OnVR.Warehouse.GrabInteraction.MobileGrabbable" preserve="all" />

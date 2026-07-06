@@ -15,6 +15,9 @@
     <type fullname="Immunodex" preserve="all" />
     <type fullname="InfusionBagAttach" preserve="all" />
     <type fullname="InteractionPillar" preserve="all" />
+    <type fullname="LandingFlowUxRouter" preserve="all" />
+    <type fullname="LandingInteractionHintProfile" preserve="all" />
+    <type fullname="LandingResetViewController" preserve="all" />
     <type fullname="LocaleManager" preserve="all" />
     <type fullname="NaiveBCellTouch" preserve="all" />
     <type fullname="ObjectSpawner" preserve="all" />

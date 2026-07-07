@@ -62,22 +62,18 @@
         companyName: "onXT",
         productName: "onXT Landing Page",
         productVersion: "0.1.0",
-        // GitHub Pages cannot serve custom Cache-Control headers, so the
-
-        // loader's own cache policy is the only control we have over how
-
-        // aggressively iOS Safari caches/evicts the large .data/.bundle files.
-
+        // On iOS, disable ALL caching to avoid the double-memory peak
+        // (download buffer + cloned response for Cache API) that triggers
+        // OOM tab kills — especially on ≤4 GB devices like iPhone 13 mini.
+        // Desktop/Android: cache .data and .bundle for faster repeat visits.
         cacheControl: function (url) {
-
-          if (url.match(/\.data/) || url.match(/\.bundle/)) {
-
-            return "must-revalidate";
-
+          if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            return "no-store";
           }
-
+          if (url.match(/\.data/) || url.match(/\.bundle/)) {
+            return "must-revalidate";
+          }
           return "no-store";
-
         },
 
         showBanner: unityShowBanner,

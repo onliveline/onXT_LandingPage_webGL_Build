@@ -111,23 +111,9 @@
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
 
-        // Detect if loaded inside an iframe (cross-origin safe check)
-        var isIframe = false;
-        try {
-          isIframe = window.self !== window.top;
-        } catch (e) {
-          isIframe = true;
-        }
-
-        // Cap devicePixelRatio to 1.5 on mobile to keep things crisp without
-        // blowing up the GPU framebuffer memory limit.
-        // If we are on iOS and inside an iframe, force it to 1 to save memory
-        // since the parent page consumes memory.
-        if (isIframe && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-          config.devicePixelRatio = 1;
-        } else {
-          config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
-        }
+        // Cap devicePixelRatio to 2 on mobile to keep things crisp (Retina resolution)
+        // while avoiding the massive GPU memory footprint of native 3x DPR.
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
 
       } else {

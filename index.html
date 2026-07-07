@@ -55,7 +55,7 @@
       var loaderUrl = buildUrl + "/cf637d00e485d312795e19ca5e4f2d8a.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/3718ef18ca179d6269a0a9dc136e52a7.data.unityweb",
+        dataUrl: buildUrl + "/1477ce963adaf760003317b9dbf862b9.data.unityweb",
         frameworkUrl: buildUrl + "/5d1afdcb95a9d5254912fd18fd68cfb5.framework.js.unityweb",
         codeUrl: buildUrl + "/666b2acde2d999e23d5813f04875c220.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
@@ -223,6 +223,13 @@
 </div>
 <script>
 (function () {
+  // On-device console for mobile debugging: append ?debug=1 to the URL.
+  if (/[?&]debug=1/.test(window.location.search)) {
+    var erudaScript = document.createElement('script');
+    erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda@3/eruda.min.js';
+    erudaScript.onload = function () { if (window.eruda) window.eruda.init(); };
+    document.body.appendChild(erudaScript);
+  }
   var ua = navigator.userAgent || navigator.vendor || '';
   var isMobile = /Android|iPhone|iPad|iPod/i.test(ua) || (/Macintosh|Mac OS X/i.test(ua) && (navigator.maxTouchPoints || 0) > 1);
   if (!isMobile) return;

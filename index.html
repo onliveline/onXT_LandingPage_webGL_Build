@@ -52,16 +52,34 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/ab8b40e47502b71d39542891784afbaa.loader.js";
+      var loaderUrl = buildUrl + "/76d748898e6dae65ce051050f4f3572a.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/ddc14d54e464b9a4200a4a3710b6fd91.data.unityweb",
-        frameworkUrl: buildUrl + "/8f529387abdeb76d67f152c441da145f.framework.js.unityweb",
-        codeUrl: buildUrl + "/e7ea90a6221d7fd3eea1770637e126b3.wasm.unityweb",
+        dataUrl: buildUrl + "/9863389588ec6046fe307116b538a4c9.data.unityweb",
+        frameworkUrl: buildUrl + "/bfbda93033cd27b8d8eec824b127d759.framework.js.unityweb",
+        codeUrl: buildUrl + "/2831ee3dcf6b57bc086ca9730ec8d089.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "onXT",
         productName: "onXT Landing Page",
         productVersion: "0.1.0",
+        // GitHub Pages cannot serve custom Cache-Control headers, so the
+
+        // loader's own cache policy is the only control we have over how
+
+        // aggressively iOS Safari caches/evicts the large .data/.bundle files.
+
+        cacheControl: function (url) {
+
+          if (url.match(/\.data/) || url.match(/\.bundle/)) {
+
+            return "must-revalidate";
+
+          }
+
+          return "no-store";
+
+        },
+
         showBanner: unityShowBanner,
         // errorHandler: function(err, url, line) {
         //    alert("error " + err + " occurred at line " + line);
@@ -99,7 +117,7 @@
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
+        config.devicePixelRatio = 1;
 
 
       } else {
@@ -107,6 +125,22 @@
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
+
+      // iOS mutes the WebAudio API (which Unity uses for all sound) whenever
+
+
+      // the hardware ring/silent switch is on. Declaring the page's audio
+
+
+      // session as "playback" makes Safari treat it like a media player and
+
+
+      // ignore the switch. No-op on browsers without the API.
+
+
+      if (navigator.audioSession) navigator.audioSession.type = "playback";
+
+
 
       document.querySelector("#unity-loading-bar").style.display = "block";
 

@@ -52,12 +52,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/cf637d00e485d312795e19ca5e4f2d8a.loader.js";
+      var loaderUrl = buildUrl + "/996076efba6a489eac98e9f456b919f8.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/1477ce963adaf760003317b9dbf862b9.data.unityweb",
-        frameworkUrl: buildUrl + "/5d1afdcb95a9d5254912fd18fd68cfb5.framework.js.unityweb",
-        codeUrl: buildUrl + "/666b2acde2d999e23d5813f04875c220.wasm.unityweb",
+        dataUrl: buildUrl + "/ca75b2eafffe3289a5f559518ecf44ed.data.unityweb",
+        frameworkUrl: buildUrl + "/8f529387abdeb76d67f152c441da145f.framework.js.unityweb",
+        codeUrl: buildUrl + "/71ba5bce8b0abe1ed0236c236e889842.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "onXT",
         productName: "onXT Landing Page",
@@ -129,54 +129,32 @@
       document.body.appendChild(script);
 
     </script>
-  <!-- ONXT_MOBILE_WARNING_START -->
+  <!-- ONVR_MOBILE_WARNING_START -->
 <style>
-  #onxt-mobile-warning {
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    z-index: 2147483646;
-    display: none;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border: 1px solid rgba(255,255,255,.24);
-    border-radius: 10px;
-    background: rgba(8,20,24,.94);
-    color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
+  #onvr-mobile-warning {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 2147483646;
+    display: none; align-items: center; gap: 14px; padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,.24); border-radius: 10px;
+    background: rgba(8,20,24,.94); color: #fff; font-family: Arial, Helvetica, sans-serif;
     box-shadow: 0 10px 28px rgba(0,0,0,.36);
   }
-  #onxt-mobile-warning.onxt-visible { display: flex; }
-  #onxt-mobile-warning-text { flex: 1; font-size: 14px; line-height: 1.35; }
-  #onxt-mobile-warning-close,
-  #onxt-mobile-warning-open {
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 999px;
-    background: rgba(255,255,255,.12);
-    color: #fff;
-    min-width: 38px;
-    height: 38px;
-    cursor: pointer;
+  #onvr-mobile-warning.onvr-visible { display: flex; }
+  #onvr-mobile-warning-text { flex: 1; font-size: 14px; line-height: 1.35; }
+  #onvr-mobile-warning-close, #onvr-mobile-warning-open {
+    border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(255,255,255,.12);
+    color: #fff; min-width: 38px; height: 38px; cursor: pointer;
   }
-  #onxt-mobile-warning-open {
-    position: fixed;
-    left: 16px;
-    bottom: 16px;
-    z-index: 2147483645;
-    display: none;
-  }
-  #onxt-mobile-warning-open.onxt-visible { display: block; }
+  #onvr-mobile-warning-open { position: fixed; left: 16px; bottom: 16px; z-index: 2147483645; display: none; }
+  #onvr-mobile-warning-open.onvr-visible { display: block; }
 </style>
-<div id="onxt-mobile-warning" role="dialog" aria-live="polite" aria-label="Mobile browser warning">
-  <div id="onxt-mobile-warning-text">This experience is designed for desktop and laptop browsers. On mobile devices it may not run optimally.</div>
-  <button id="onxt-mobile-warning-close" type="button" aria-label="Dismiss mobile browser warning">x</button>
+<div id="onvr-mobile-warning" role="dialog" aria-live="polite" aria-label="Mobile browser warning">
+  <div id="onvr-mobile-warning-text">This experience is designed for desktop and laptop browsers. On mobile devices it may not run optimally.</div>
+  <button id="onvr-mobile-warning-close" type="button" aria-label="Dismiss mobile browser warning">x</button>
 </div>
-<button id="onxt-mobile-warning-open" type="button" aria-label="Reopen mobile browser warning">i</button>
+<button id="onvr-mobile-warning-open" type="button" aria-label="Reopen mobile browser warning">i</button>
 <script>
 (function () {
-  // On-device console for mobile debugging: append ?debug=1 to the URL.
+  
   if (/[?&]debug=1/.test(window.location.search)) {
     var erudaScript = document.createElement('script');
     erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda@3/eruda.min.js';
@@ -186,24 +164,18 @@
   var ua = navigator.userAgent || navigator.vendor || '';
   var isMobile = /Android|iPhone|iPad|iPod/i.test(ua) || (/Macintosh|Mac OS X/i.test(ua) && (navigator.maxTouchPoints || 0) > 1);
   if (!isMobile) return;
-  var panel = document.getElementById('onxt-mobile-warning');
-  var close = document.getElementById('onxt-mobile-warning-close');
-  var open = document.getElementById('onxt-mobile-warning-open');
+  var panel = document.getElementById('onvr-mobile-warning');
+  var close = document.getElementById('onvr-mobile-warning-close');
+  var open = document.getElementById('onvr-mobile-warning-open');
   if (panel && close && open) {
-    var show = function () {
-      panel.classList.add('onxt-visible');
-      open.classList.remove('onxt-visible');
-    };
-    var hide = function () {
-      panel.classList.remove('onxt-visible');
-      open.classList.add('onxt-visible');
-    };
+    var show = function () { panel.classList.add('onvr-visible'); open.classList.remove('onvr-visible'); };
+    var hide = function () { panel.classList.remove('onvr-visible'); open.classList.add('onvr-visible'); };
     close.addEventListener('click', hide);
     open.addEventListener('click', show);
     show();
   }
 })();
 </script>
-<!-- ONXT_MOBILE_WARNING_END -->
+<!-- ONVR_MOBILE_WARNING_END -->
 </body>
 </html>

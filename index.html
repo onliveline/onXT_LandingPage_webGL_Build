@@ -52,28 +52,40 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/76d748898e6dae65ce051050f4f3572a.loader.js";
+      var loaderUrl = buildUrl + "/82620a45ac66418aba34da95a87fafb7.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/1e3a7b632075700ff1ee9de787b5f37c.data.unityweb",
-        frameworkUrl: buildUrl + "/bfbda93033cd27b8d8eec824b127d759.framework.js.unityweb",
-        codeUrl: buildUrl + "/2831ee3dcf6b57bc086ca9730ec8d089.wasm.unityweb",
+        dataUrl: buildUrl + "/ba3c9b5d0b0ce9bfe7b8a3460ea9af64.data.unityweb",
+        frameworkUrl: buildUrl + "/5340d9c015b1d6839987f401586452b2.framework.js.unityweb",
+        codeUrl: buildUrl + "/a9d63f31504d6439c529595e51c5d33f.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "onXT",
         productName: "onXT Landing Page",
         productVersion: "0.1.0",
         // On iOS, disable ALL caching to avoid the double-memory peak
+
         // (download buffer + cloned response for Cache API) that triggers
+
         // OOM tab kills — especially on ≤4 GB devices like iPhone 13 mini.
+
         // Desktop/Android: cache .data and .bundle for faster repeat visits.
+
         cacheControl: function (url) {
+
           if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+
             return "no-store";
+
           }
+
           if (url.match(/\.data/) || url.match(/\.bundle/)) {
+
             return "must-revalidate";
+
           }
+
           return "no-store";
+
         },
 
         showBanner: unityShowBanner,
@@ -111,8 +123,8 @@
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
 
-        // Cap devicePixelRatio to 2 on mobile to keep things crisp (Retina resolution)
-        // while avoiding the massive GPU memory footprint of native 3x DPR.
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
         config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
 

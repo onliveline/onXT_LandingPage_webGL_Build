@@ -52,12 +52,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/ea221878a7c7f86f4254c09d460a2f45.loader.js";
+      var loaderUrl = buildUrl + "/cf637d00e485d312795e19ca5e4f2d8a.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/a6c33589e047fb14ce68022f7dc4d987.data.unityweb",
-        frameworkUrl: buildUrl + "/6f9d73c0bd828a8b5f175f7783bdc509.framework.js.unityweb",
-        codeUrl: buildUrl + "/f471a221d542e5b79755c2a8c2b53be2.wasm.unityweb",
+        dataUrl: buildUrl + "/600afd3591bde4c6e0170cdc25c64810.data.unityweb",
+        frameworkUrl: buildUrl + "/5d1afdcb95a9d5254912fd18fd68cfb5.framework.js.unityweb",
+        codeUrl: buildUrl + "/666b2acde2d999e23d5813f04875c220.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "onXT",
         productName: "onXT Landing Page",
@@ -136,7 +136,7 @@
     left: 16px;
     right: 16px;
     bottom: 16px;
-    z-index: 2147483647;
+    z-index: 2147483646;
     display: none;
     align-items: center;
     gap: 14px;
@@ -164,16 +164,63 @@
     position: fixed;
     left: 16px;
     bottom: 16px;
-    z-index: 2147483646;
+    z-index: 2147483645;
     display: none;
   }
   #onxt-mobile-warning-open.onxt-visible { display: block; }
+  #onxt-rotate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 32px;
+    background: rgba(4,12,16,.96);
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+  }
+  #onxt-rotate-overlay.onxt-visible { display: flex; }
+  #onxt-rotate-overlay .onxt-rotate-icon {
+    width: 64px;
+    height: 64px;
+    animation: onxt-rotate-hint 2s ease-in-out infinite;
+  }
+  @keyframes onxt-rotate-hint {
+    0%, 20% { transform: rotate(0deg); }
+    55%, 80% { transform: rotate(90deg); }
+    100% { transform: rotate(90deg); }
+  }
+  #onxt-rotate-overlay h2 { margin: 0; font-size: 20px; font-weight: 700; }
+  #onxt-rotate-overlay p { margin: 0; max-width: 420px; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.82); }
+  #onxt-rotate-continue {
+    margin-top: 8px;
+    padding: 10px 22px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
 </style>
 <div id="onxt-mobile-warning" role="dialog" aria-live="polite" aria-label="Mobile browser warning">
-  <div id="onxt-mobile-warning-text">For the best experience on mobile, keep your browser in landscape, close extra tabs, and use a stable connection.</div>
+  <div id="onxt-mobile-warning-text">This experience is designed for desktop and laptop browsers. On mobile devices it may not run optimally &mdash; landscape mode is recommended.</div>
   <button id="onxt-mobile-warning-close" type="button" aria-label="Dismiss mobile browser warning">x</button>
 </div>
 <button id="onxt-mobile-warning-open" type="button" aria-label="Reopen mobile browser warning">i</button>
+<div id="onxt-rotate-overlay" role="dialog" aria-label="Rotate device">
+  <svg class="onxt-rotate-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="22" y="8" width="20" height="48" rx="4" fill="none" stroke="#fff" stroke-width="3"/>
+    <circle cx="32" cy="49" r="2.4" fill="#fff"/>
+  </svg>
+  <h2>Please rotate your device</h2>
+  <p>This experience works best in landscape mode. Turn your device sideways to continue.</p>
+  <button id="onxt-rotate-continue" type="button">Continue in portrait</button>
+</div>
 <script>
 (function () {
   var ua = navigator.userAgent || navigator.vendor || '';
@@ -182,18 +229,58 @@
   var panel = document.getElementById('onxt-mobile-warning');
   var close = document.getElementById('onxt-mobile-warning-close');
   var open = document.getElementById('onxt-mobile-warning-open');
-  if (!panel || !close || !open) return;
-  function show() {
-    panel.classList.add('onxt-visible');
-    open.classList.remove('onxt-visible');
+  if (panel && close && open) {
+    var show = function () {
+      panel.classList.add('onxt-visible');
+      open.classList.remove('onxt-visible');
+    };
+    var hide = function () {
+      panel.classList.remove('onxt-visible');
+      open.classList.add('onxt-visible');
+    };
+    close.addEventListener('click', hide);
+    open.addEventListener('click', show);
+    show();
   }
-  function hide() {
-    panel.classList.remove('onxt-visible');
-    open.classList.add('onxt-visible');
+
+  // Best effort only: browsers that support it (mostly Android in fullscreen)
+  // will lock, everything else rejects and we fall back to the rotate overlay.
+  var tryLockLandscape = function () {
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        var p = screen.orientation.lock('landscape');
+        if (p && p.catch) p.catch(function () {});
+      }
+    } catch (e) {}
+  };
+  document.addEventListener('touchend', tryLockLandscape, true);
+  document.addEventListener('click', tryLockLandscape, true);
+  tryLockLandscape();
+
+  var overlay = document.getElementById('onxt-rotate-overlay');
+  var continueBtn = document.getElementById('onxt-rotate-continue');
+  if (!overlay || !continueBtn) return;
+  var rotateDismissed = false;
+  try { rotateDismissed = sessionStorage.getItem('onxtRotateDismissed') === '1'; } catch (e) {}
+  var isPortrait = function () {
+    if (screen.orientation && screen.orientation.type) return screen.orientation.type.indexOf('portrait') === 0;
+    return window.innerHeight > window.innerWidth;
+  };
+  var updateRotateOverlay = function () {
+    var visible = isPortrait() && !rotateDismissed;
+    overlay.classList.toggle('onxt-visible', visible);
+  };
+  continueBtn.addEventListener('click', function () {
+    rotateDismissed = true;
+    try { sessionStorage.setItem('onxtRotateDismissed', '1'); } catch (e) {}
+    updateRotateOverlay();
+  });
+  window.addEventListener('resize', updateRotateOverlay);
+  window.addEventListener('orientationchange', updateRotateOverlay);
+  if (screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener('change', updateRotateOverlay);
   }
-  close.addEventListener('click', hide);
-  open.addEventListener('click', show);
-  show();
+  updateRotateOverlay();
 })();
 </script>
 <!-- ONXT_MOBILE_WARNING_END -->

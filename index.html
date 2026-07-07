@@ -55,7 +55,7 @@
       var loaderUrl = buildUrl + "/76d748898e6dae65ce051050f4f3572a.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/9863389588ec6046fe307116b538a4c9.data.unityweb",
+        dataUrl: buildUrl + "/1e3a7b632075700ff1ee9de787b5f37c.data.unityweb",
         frameworkUrl: buildUrl + "/bfbda93033cd27b8d8eec824b127d759.framework.js.unityweb",
         codeUrl: buildUrl + "/2831ee3dcf6b57bc086ca9730ec8d089.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
@@ -117,7 +117,7 @@
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
-        config.devicePixelRatio = 1;
+        // config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
 
       } else {

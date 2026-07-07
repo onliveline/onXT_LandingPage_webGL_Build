@@ -111,11 +111,9 @@
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
 
-        // Force devicePixelRatio to 1 on mobile to keep the GPU framebuffer
-        // small. On iPhone 13 mini (3× DPR), this reduces the framebuffer
-        // from ~3 million pixels to ~330k — critical for staying under iOS's
-        // per-tab memory limit.
-        config.devicePixelRatio = 1;
+        // Cap devicePixelRatio to 1.5 on mobile to keep things crisp without
+        // blowing up the GPU framebuffer memory limit.
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
 
 
       } else {

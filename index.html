@@ -6,6 +6,161 @@
     <title>Unity Web Player | onXT Landing Page</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+  
+    <!-- ONXT_ANALYTICS_BOOTSTRAP -->
+    <script>
+      (function () {
+        'use strict';
+
+        var tagId = 'GT-NFP5NZCS';
+        var debugMode = /(?:\?|&)analytics_debug=1(?:&|$)/.test(window.location.search);
+        var navigationStartedAt = performance.now();
+        var visibleStartedAt = null;
+        var activeSection = '';
+        var activeMilestone = '';
+        var activeSectionStartedAt = null;
+        var sessionEnded = false;
+        var sentErrors = Object.create(null);
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', tagId, { send_page_view: false });
+
+        function currentBuildId() {
+          var codeUrl = window.config && window.config.codeUrl ? window.config.codeUrl : '';
+          var match = /\/([^\/]+)\.wasm(?:\.unityweb)?(?:\?|$)/.exec(codeUrl);
+          return match ? match[1] : '';
+        }
+
+        function normalized(parameters) {
+          var output = {};
+          parameters = parameters || {};
+          Object.keys(parameters).forEach(function (key) {
+            var value = parameters[key];
+            if (value === null || typeof value === 'undefined' || value === '' || value === false || value === 0) return;
+            if (typeof value === 'number' && !Number.isFinite(value)) return;
+            output[key] = value;
+          });
+
+          output.app_name = 'onxt_landing_webgl';
+
+          var appVersion = (window.config && window.config.productVersion) || output.app_version || '';
+          if (appVersion) output.app_version = appVersion;
+
+          var buildId = currentBuildId();
+          if (buildId) output.build_id = buildId;
+          if (debugMode) output.debug_mode = true;
+          return output;
+        }
+
+        function track(eventName, parameters) {
+          if (!eventName) return;
+          window.gtag('event', eventName, normalized(parameters));
+        }
+
+        function flushEngagement() {
+          if (visibleStartedAt === null) return;
+          var duration = Math.max(0, Math.round(performance.now() - visibleStartedAt));
+          visibleStartedAt = null;
+          if (duration < 1) return;
+
+          track('webgl_engagement', {
+            engagement_time_ms: duration,
+            section_id: activeSection,
+            progress_milestone: activeMilestone,
+            transport_type: 'beacon'
+          });
+        }
+
+        function endSession() {
+          if (sessionEnded) return;
+          sessionEnded = true;
+
+          flushEngagement();
+          var totalTime = Math.max(0, Math.round(performance.now() - navigationStartedAt));
+          if (activeSection) {
+            track('section_drop_off', {
+              section_id: activeSection,
+              level_name: activeSection,
+              progress_milestone: activeMilestone || 'start',
+              section_duration_ms: activeSectionStartedAt === null
+                ? 0
+                : Math.max(0, Math.round(performance.now() - activeSectionStartedAt)),
+              transport_type: 'beacon'
+            });
+          }
+
+          track('webgl_session_end', {
+            total_time_ms: totalTime,
+            section_id: activeSection,
+            progress_milestone: activeMilestone,
+            transport_type: 'beacon'
+          });
+        }
+
+        window.onxtAnalytics = {
+          isGameReady: false,
+          track: track,
+          gameReady: function (appVersion) {
+            if (this.isGameReady) return;
+            this.isGameReady = true;
+            if (appVersion) {
+              window.config = window.config || {};
+              window.config.productVersion = appVersion;
+            }
+
+            var loadTime = Math.max(0, Math.round(performance.now() - navigationStartedAt));
+            track('game_start', { load_time_ms: loadTime });
+            track('game_load_complete', { load_time_ms: loadTime });
+            if (document.visibilityState !== 'hidden') visibleStartedAt = performance.now();
+          },
+          setSectionState: function (sectionId, milestone) {
+            var nextSection = sectionId || '';
+            if (nextSection && nextSection !== activeSection) {
+              activeSectionStartedAt = performance.now();
+            } else if (!nextSection) {
+              activeSectionStartedAt = null;
+            }
+
+            activeSection = nextSection;
+            activeMilestone = milestone || '';
+          },
+          reportError: function (stage, description, fatal) {
+            var safeDescription = String(description || 'Unknown WebGL error').replace(/\s+/g, ' ').slice(0, 180);
+            var key = String(stage || 'unknown') + '|' + safeDescription;
+            if (sentErrors[key]) return;
+            sentErrors[key] = true;
+            track('exception', {
+              error_stage: stage || 'unknown',
+              description: safeDescription,
+              fatal: !!fatal
+            });
+          },
+          flushEngagement: flushEngagement
+        };
+
+        document.addEventListener('visibilitychange', function () {
+          if (!window.onxtAnalytics.isGameReady) return;
+          if (document.visibilityState === 'hidden') {
+            flushEngagement();
+          } else if (visibleStartedAt === null) {
+            visibleStartedAt = performance.now();
+          }
+        });
+
+        window.addEventListener('pagehide', endSession);
+        track('webgl_launch');
+
+        var analyticsScript = document.createElement('script');
+        analyticsScript.async = true;
+        analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(tagId);
+        analyticsScript.onerror = function () {
+          if (window.console && console.warn) console.warn('[onXT Analytics] Google tag failed to load.');
+        };
+        document.head.appendChild(analyticsScript);
+      })();
+    </script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -52,12 +207,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/580d938d497d2f73a60d2f9b4f79f14d.loader.js";
+      var loaderUrl = buildUrl + "/f46e7a1038273e43fecf39a1bf567c9f.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/11433cb5b730b4b4c36b8c9091d8e547.data.unityweb",
-        frameworkUrl: buildUrl + "/5340d9c015b1d6839987f401586452b2.framework.js.unityweb",
-        codeUrl: buildUrl + "/9546aa5e2b959d99e81d2c82703c4438.wasm.unityweb",
+        dataUrl: buildUrl + "/4e183624389655bec1dfa222eed3de5e.data.unityweb",
+        frameworkUrl: buildUrl + "/5f7088987ca8c1f54c42a008b05a75e0.framework.js.unityweb",
+        codeUrl: buildUrl + "/4ef46252d23935fca6b58335d2f5132b.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "onXT",
         productName: "onXT Landing Page",
@@ -85,6 +240,22 @@
           }
 
           return "no-store";
+
+        },
+
+        // ONXT_ANALYTICS_RUNTIME_ERROR
+
+        errorHandler: function (err, url, line) {
+
+          if (window.onxtAnalytics) {
+
+            var stage = window.onxtAnalytics.isGameReady ? "webgl_runtime" : "unity_runtime";
+
+            window.onxtAnalytics.reportError(stage, String(err), !window.onxtAnalytics.isGameReady);
+
+          }
+
+          return false;
 
         },
 
@@ -154,6 +325,10 @@
 
       var script = document.createElement("script");
       script.src = loaderUrl;
+      // ONXT_ANALYTICS_LOADER_ERROR
+      script.onerror = function () {
+        if (window.onxtAnalytics) window.onxtAnalytics.reportError("loader_script", "Unity loader script failed to load.", true);
+      };
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
